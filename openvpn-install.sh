@@ -173,15 +173,16 @@ if [[ ! -e /etc/openvpn/server/server.conf ]]; then
 	echo "   3) 1.1.1.1"
 	echo "   4) OpenDNS"
 	echo "   5) Quad9"
-	echo "   6) AdGuard"
-	echo "   7) Specify custom resolvers"
+	echo "   6) Gcore"
+	echo "   7) AdGuard"
+	echo "   8) Specify custom resolvers"
 	read -p "DNS server [1]: " dns
-	until [[ -z "$dns" || "$dns" =~ ^[1-7]$ ]]; do
+	until [[ -z "$dns" || "$dns" =~ ^[1-8]$ ]]; do
 		echo "$dns: invalid selection."
 		read -p "DNS server [1]: " dns
 	done
 	# If the user selected custom resolvers, we deal with that here
-	if [[ "$dns" = "7" ]]; then
+	if [[ "$dns" = "8" ]]; then
 		echo
 		until [[ -n "$custom_dns" ]]; do
 			echo "Enter DNS servers (one or more IPv4 addresses, separated by commas or spaces):"
@@ -245,7 +246,7 @@ LimitNPROC=infinity" > /etc/systemd/system/openvpn-server@server.service.d/disab
 		systemctl enable --now firewalld.service
 	fi
 	# Get easy-rsa
-	easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.3/EasyRSA-3.2.3.tgz'
+	easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.5/EasyRSA-3.2.5.tgz'
 	mkdir -p /etc/openvpn/server/easy-rsa/
 	{ wget -qO- "$easy_rsa_url" 2>/dev/null || curl -sL "$easy_rsa_url" ; } | tar xz -C /etc/openvpn/server/easy-rsa/ --strip-components 1
 	chown -R root:root /etc/openvpn/server/easy-rsa/
@@ -329,10 +330,14 @@ server 10.8.0.0 255.255.255.0" > /etc/openvpn/server/server.conf
 			echo 'push "dhcp-option DNS 149.112.112.112"' >> /etc/openvpn/server/server.conf
 		;;
 		6)
+			echo 'push "dhcp-option DNS 95.85.95.85"' >> /etc/openvpn/server/server.conf
+			echo 'push "dhcp-option DNS 2.56.220.2"' >> /etc/openvpn/server/server.conf
+		;;
+		7)
 			echo 'push "dhcp-option DNS 94.140.14.14"' >> /etc/openvpn/server/server.conf
 			echo 'push "dhcp-option DNS 94.140.15.15"' >> /etc/openvpn/server/server.conf
 		;;
-		7)
+		8)
 		for dns_ip in $custom_dns; do
 			echo "push \"dhcp-option DNS $dns_ip\"" >> /etc/openvpn/server/server.conf
 		done
