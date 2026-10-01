@@ -19,6 +19,3 @@ You can get a VPS from just [2 EUR](https://alphavps.com/clients/aff.php?aff=474
 
 ### Donations
 If you want to show your appreciation, you can donate via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VBAYDL34Z7J6L) or [cryptocurrency](https://pastebin.com/raw/M2JJpQpC). Thanks!
-
-### Sponsors
-VPN without the terminal? Point-and-click deployment + free VPS, live in 3 min. Try free, then $1/mo — [Clever VPN](https://www.clever-vpn.net/en/landing-vpn?wg-referral=01LOULuQoi).
